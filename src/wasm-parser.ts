@@ -52,7 +52,7 @@ const __vite__wasmModule = await ${names.initWasm}({ ${imports
       ({ from, names }, i) =>
         `${JSON.stringify(from)}: { ${names.map((name, j) => `${name}: __vite__wasmImport_${i}_${j}`).join(", ")} }`
     )
-    .join(", ")} }, ${names.wasmUrl}, digest: ${JSON.stringify(digest)});
+    .join(", ")} }, ${names.wasmUrl}, ${digest}});
 ${exports
   .map(name => `export ${name === "default" ? "default" : `const ${name} =`} __vite__wasmModule.${name};`)
   .join("\n")}`;
