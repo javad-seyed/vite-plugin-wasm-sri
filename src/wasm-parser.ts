@@ -13,7 +13,7 @@ export interface WasmInfo {
 export async function parseWasm(wasmFilePath: string): Promise<WasmInfo> {
   try {
     const wasmBinary = await fs.promises.readFile(wasmFilePath);
-    const digest = createHash("sha384").update(wasmBinary).digest("base64");
+    const digest = `sha384-${createHash("sha384").update(wasmBinary).digest().toString("base64")}`;
     const wasmModule = await WebAssembly.compile(wasmBinary);
     const imports = Object.entries(
       WebAssembly.Module.imports(wasmModule).reduce(
@@ -52,7 +52,7 @@ const __vite__wasmModule = await ${names.initWasm}({ ${imports
       ({ from, names }, i) =>
         `${JSON.stringify(from)}: { ${names.map((name, j) => `${name}: __vite__wasmImport_${i}_${j}`).join(", ")} }`
     )
-    .join(", ")} }, ${names.wasmUrl}, "${digest}"});
+    .join(", ")} }, ${names.wasmUrl}, ${digest});
 ${exports
   .map(name => `export ${name === "default" ? "default" : `const ${name} =`} __vite__wasmModule.${name};`)
   .join("\n")}`;

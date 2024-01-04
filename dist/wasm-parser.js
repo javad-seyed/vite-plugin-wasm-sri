@@ -9,7 +9,7 @@ const crypto_1 = require("crypto");
 async function parseWasm(wasmFilePath) {
     try {
         const wasmBinary = await fs_1.default.promises.readFile(wasmFilePath);
-        const digest = (0, crypto_1.createHash)("sha384").update(wasmBinary).digest("base64");
+        const digest = `sha384-${(0, crypto_1.createHash)("sha384").update(wasmBinary).digest().toString("base64")}`;
         const wasmModule = await WebAssembly.compile(wasmBinary);
         const imports = Object.entries(WebAssembly.Module.imports(wasmModule).reduce((result, item) => ({
             ...result,
@@ -31,7 +31,7 @@ ${imports
         .join("\n")}
 const __vite__wasmModule = await ${names.initWasm}({ ${imports
         .map(({ from, names }, i) => `${JSON.stringify(from)}: { ${names.map((name, j) => `${name}: __vite__wasmImport_${i}_${j}`).join(", ")} }`)
-        .join(", ")} }, ${names.wasmUrl}, "${digest}"});
+        .join(", ")} }, ${names.wasmUrl}, ${digest});
 ${exports
         .map(name => `export ${name === "default" ? "default" : `const ${name} =`} __vite__wasmModule.${name};`)
         .join("\n")}`;
