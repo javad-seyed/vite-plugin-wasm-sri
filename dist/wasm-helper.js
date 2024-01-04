@@ -6,8 +6,9 @@ exports.code = exports.id = void 0;
 // https://github.com/vitejs/vite/blob/3c0a6091fe96044e9dd84fbe5db3343339a88986/packages/vite/src/node/plugins/wasm.ts
 exports.id = "/__vite-plugin-wasm-sri-helper";
 /* istanbul ignore next */
-const wasmHelper = async (opts = {}, url) => {
+const wasmHelper = async (opts = {}, url, test_arg) => {
     let result;
+    console.log("test_arg", test_arg);
     if (url.startsWith("data:")) {
         const urlContent = url.replace(/^data:.*?base64,/, "");
         let bytes;

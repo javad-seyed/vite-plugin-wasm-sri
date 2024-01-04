@@ -6,8 +6,9 @@
 export const id = "/__vite-plugin-wasm-sri-helper";
 
 /* istanbul ignore next */
-const wasmHelper = async (opts = {}, url: string) => {
+const wasmHelper = async (opts = {}, url: string, test_arg: string) => {
   let result: WebAssembly.WebAssemblyInstantiatedSource;
+  console.log("test_arg", test_arg);
   if (url.startsWith("data:")) {
     const urlContent = url.replace(/^data:.*?base64,/, "");
     let bytes;
