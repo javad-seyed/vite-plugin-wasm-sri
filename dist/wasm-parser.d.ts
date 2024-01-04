@@ -4,6 +4,7 @@ export interface WasmInfo {
         names: string[];
     }[];
     exports: string[];
+    digest: string;
 }
 export declare function parseWasm(wasmFilePath: string): Promise<WasmInfo>;
 export declare function generateGlueCode(wasmFilePath: string, names: {
