@@ -6,9 +6,9 @@
 export const id = "/__vite-plugin-wasm-sri-helper";
 
 /* istanbul ignore next */
-const wasmHelper = async (opts = {}, url: string, test_arg: string) => {
+const wasmHelper = async (opts = {}, url: string, wasm_digest: string) => {
   let result: WebAssembly.WebAssemblyInstantiatedSource;
-  console.log("test_arg", test_arg);
+  console.log("wasm_digest", wasm_digest);
   if (url.startsWith("data:")) {
     const urlContent = url.replace(/^data:.*?base64,/, "");
     let bytes;
@@ -31,7 +31,7 @@ const wasmHelper = async (opts = {}, url: string, test_arg: string) => {
     // a lot of static file servers, so we just work around it by getting the
     // raw buffer.
     // @ts-ignore
-    const response = await fetch(url);
+    const response = await fetch(url, { integrity: wasm_digest});
     const contentType = response.headers.get("Content-Type") || "";
     if ("instantiateStreaming" in WebAssembly && contentType.startsWith("application/wasm")) {
       result = await WebAssembly.instantiateStreaming(response, opts);
