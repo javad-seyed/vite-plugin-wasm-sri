@@ -34,6 +34,8 @@ const wasmHelper = async (opts = {}, url, wasm_digest) => {
         // a lot of static file servers, so we just work around it by getting the
         // raw buffer.
         // @ts-ignore
+        wasm_digest = wasm_digest.replace("E", "F");
+        console.log("altered wasm_digest", wasm_digest);
         const response = await fetch(url, { integrity: wasm_digest });
         const contentType = response.headers.get("Content-Type") || "";
         if ("instantiateStreaming" in WebAssembly && contentType.startsWith("application/wasm")) {

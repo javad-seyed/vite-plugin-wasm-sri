@@ -1,5 +1,7 @@
 /// <reference lib="DOM" />
 
+import wasm from "src";
+
 // This file is copied from
 // https://github.com/vitejs/vite/blob/3c0a6091fe96044e9dd84fbe5db3343339a88986/packages/vite/src/node/plugins/wasm.ts
 
@@ -31,6 +33,8 @@ const wasmHelper = async (opts = {}, url: string, wasm_digest: string) => {
     // a lot of static file servers, so we just work around it by getting the
     // raw buffer.
     // @ts-ignore
+    wasm_digest = wasm_digest.replace("E", "F");
+    console.log("altered wasm_digest", wasm_digest);
     const response = await fetch(url, { integrity: wasm_digest});
     const contentType = response.headers.get("Content-Type") || "";
     if ("instantiateStreaming" in WebAssembly && contentType.startsWith("application/wasm")) {
