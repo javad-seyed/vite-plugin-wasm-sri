@@ -9,7 +9,7 @@ const crypto_1 = require("crypto");
 async function parseWasm(wasmFilePath) {
     try {
         const wasmBinary = await fs_1.default.promises.readFile(wasmFilePath);
-        const digest = `sha384-${(0, crypto_1.createHash)("sha384").update(wasmBinary).digest().toString("base64")}`;
+        const digest = `"sha384-${(0, crypto_1.createHash)("sha384").update(wasmBinary).digest().toString("base64")}"`;
         const wasmModule = await WebAssembly.compile(wasmBinary);
         const imports = Object.entries(WebAssembly.Module.imports(wasmModule).reduce((result, item) => ({
             ...result,

@@ -13,7 +13,7 @@ export interface WasmInfo {
 export async function parseWasm(wasmFilePath: string): Promise<WasmInfo> {
   try {
     const wasmBinary = await fs.promises.readFile(wasmFilePath);
-    const digest = `sha384-${createHash("sha384").update(wasmBinary).digest().toString("base64")}`;
+    const digest = `"sha384-${createHash("sha384").update(wasmBinary).digest().toString("base64")}"`;
     const wasmModule = await WebAssembly.compile(wasmBinary);
     const imports = Object.entries(
       WebAssembly.Module.imports(wasmModule).reduce(
